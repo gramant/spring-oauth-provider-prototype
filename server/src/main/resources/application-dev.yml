@@ -1,0 +1,14 @@
+server:
+  port: 8081
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:54395/oauth
+    username: oauth
+    password: abc
+  jooq:
+    sql-dialect: POSTGRES_9_4
+
+liquibase:
+  enabled: false

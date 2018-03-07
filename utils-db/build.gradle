@@ -1,0 +1,25 @@
+apply plugin: "java"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "org.postgresql:postgresql:9.3-1102-jdbc41"
+    compile "org.liquibase:liquibase-core:3.5.3"
+}
+
+//http://sergeydanilov.blogspot.ru/2015/05/liquibase-gradle.html
+task db(type: JavaExec) {
+    group = "Liquibase"
+    classpath configurations.compile
+    main = "liquibase.integration.commandline.Main"
+    args "--changeLogFile=src/main/resources/changelog/version-increment.xml"
+    args "--username=oauth"
+    args "--password=abc"
+    args "--url=jdbc:postgresql://127.0.0.1:54395/oauth"
+    args "--driver=org.postgresql.Driver"
+    args "--logLevel=debug"
+    args "--defaultSchemaName=public"
+    args "update"
+}

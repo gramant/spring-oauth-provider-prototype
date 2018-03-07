@@ -1,0 +1,7 @@
+oauth:
+  checkTokenEndpointUrl: http://localhost:8081/oauth/check_token
+  clientId: aClientId
+  secretId: aSecret
+
+server:
+  port: 8080

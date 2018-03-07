@@ -1,0 +1,9 @@
+oauth-db:
+ container_name: oauth-db
+ image: sameersbn/postgresql:9.4
+ ports:
+  - "54395:5432"
+ environment:
+  - DB_USER=oauth
+  - DB_PASS=abc
+  - DB_NAME=oauth

@@ -1,0 +1,21 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet id="oauth.20180307.f1.xml" author="fbelov">
+        <createTable tableName="user">
+            <column autoIncrement="true" name="id" type="bigserial">
+                <constraints primaryKey="true" primaryKeyName="user_pkey"/>
+            </column>
+
+            <column name="customer_id" type="bigint"/>
+            <column name="name" type="varchar(255)"/>
+            <column name="password" type="varchar(1024)"/>
+            <column name="roles" type="varchar(255)"/>
+            <column name="is_enabled" type="boolean" />
+
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <!--mvn clean generate-resources -P jooq-codegen-->
+
+    <parent>
+        <groupId>com.onefactor</groupId>
+        <artifactId>oauth</artifactId>
+        <version>1.0.1-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>oauth-utils-dao-jooq</artifactId>
+    <version>1.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <properties>
+        <org.jooq.version>3.9.1</org.jooq.version>
+        <db.driver>org.postgresql.Driver</db.driver>
+        <db.url>jdbc:postgresql://localhost:54395/oauth</db.url>
+        <db.username>oauth</db.username>
+        <db.password>abc</db.password>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.jooq</groupId>
+            <artifactId>jooq</artifactId>
+            <version>3.9.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.3-1102-jdbc41</version>
+        </dependency>
+    </dependencies>
+
+
+    <profiles>
+        <profile>
+            <id>jooq-codegen</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <version>2.1</version>
+                        <configuration>
+                            <source>1.8</source>
+                            <target>1.8</target>
+                            <compilerArgument>-proc:none</compilerArgument>
+                        </configuration>
+                    </plugin>
+
+
+                    <!-- The jOOQ code generator plugin -->
+                    <plugin>
+                        <groupId>org.jooq</groupId>
+                        <artifactId>jooq-codegen-maven</artifactId>
+                        <version>${org.jooq.version}</version>
+
+                        <executions>
+                            <execution>
+                                <id>postgres</id>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>generate</goal>
+                                </goals>
+                                <configuration>
+                                    <jdbc>
+                                        <driver>${db.driver}</driver>
+                                        <url>${db.url}</url>
+                                        <user>${db.username}</user>
+                                        <password>${db.password}</password>
+                                    </jdbc>
+                                    <generator>
+                                        <name>org.jooq.util.DefaultGenerator</name>
+                                        <database>
+                                            <name>org.jooq.util.postgres.PostgresDatabase</name>
+
+                                            <includes>user</includes>
+
+                                            <schemata>
+                                                <schema>
+                                                    <inputSchema>public</inputSchema>
+                                                </schema>
+                                            </schemata>
+                                        </database>
+                                        <generate>
+                                            <instanceFields>true</instanceFields>
+                                            <fluentSetters>true</fluentSetters>
+                                            <pojos>true</pojos>
+                                            <daos>false</daos>
+                                            <springAnnotations>true</springAnnotations>
+                                            <records>true</records>
+                                            <javaTimeTypes>true</javaTimeTypes>
+                                        </generate>
+                                        <target>
+                                            <packageName>com.onefactor.oauth.dao.jooq</packageName>
+                                            <directory>./src/main/java/</directory>
+                                        </target>
+                                    </generator>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+
+</project>
